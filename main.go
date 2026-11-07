@@ -18,14 +18,15 @@ func main() {
 		"INFO|2024-01-01 10:03:00|User login",
 		"BROKEN LINE WITHOUT PIPES",
 		"ERROR|2024-01-01 10:04:00|Timeout",
+		"ERROR|ONE LINE STRING",
 	}
 
-	var errors float32
+	var errors int
 	results := make(chan Result)
 
 	go func() {
 		for _, i := range logs {
-			if !strings.Contains(i, "|") {
+			if strings.Count(i, "|") != 2 {
 				continue
 			}
 			lvl := strings.Index(i, "|")
@@ -44,5 +45,5 @@ func main() {
 		}
 	}
 
-	fmt.Println(errors / float32(len(logs)))
+	fmt.Println(float32(errors) / float32(len(logs)))
 }
